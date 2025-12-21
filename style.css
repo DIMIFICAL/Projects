@@ -68,6 +68,17 @@ header h1,
   box-shadow:0 20px 40px rgba(0,0,0,0.42);
 }
 
+.project img.thumb{
+  width:100%;
+  max-width:360px;
+  height:auto;
+  border-radius:10px;
+  margin-bottom:0.75rem;
+  display:block;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  object-fit:cover;
+}
+
 /* headings & links */
 header h1, header p{margin:0; text-align:center}
 .project h2{margin:0 0 0.5rem; font-size:1.15rem}
@@ -89,3 +100,11 @@ footer{
   width:100%;
   max-width:960px;
 }
+
+/* Modal */
+.screenshot-modal{
+  position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+  background:rgba(10,10,15,0.75); z-index:9999; padding:2rem;
+}
+.screenshot-modal.show{ display:flex; }
+.screenshot-modal img{ max-width:95%; max-height:90%; border-radius:8px; }
