@@ -1,64 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dimifical Projects</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- CSS is consolidated in style.css -->
-</head>
-<body>
-  <header>
-    <h1>Welcome to <span class="username">Dimifical</span>'s Projects</h1>
-    <p>Amazing tools for your needs.</p>
-  </header>
+@import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
 
-  <main>
-    <div class="project">
-      <a href="Versify%20TN.png" target="_blank" rel="noopener">
-        <img class="thumb" src="Versify%20TN.png" alt="Versify screenshot">
-      </a>
-      <h2><a href="https://drive.google.com/uc?export=download&id=1ybwocg0wNqRsFau8c762qQhodWtZhgxk" target="_blank" rel="noopener">Versify</a></h2>
-      <p>Bible verse explorer with 900+ categorized verses. Used by classmates for study and reflection.</p>
-    </div>
+:root{
+  --bg-1:#2b1240;
+  --bg-2:#3a1f56;
+  --card-bg:rgba(255,255,255,0.06);
+  --accent:#b68aff;
+  --muted:#c8bfe6;
+  --text:#efeaf7;
+}
 
-    <div class="project">
-      <a href="DIMIFICAL%20Youtube%20TN.png" target="_blank" rel="noopener">
-        <img class="thumb" src="DIMIFICAL%20Youtube%20TN.png" alt="DIMIFICAL YouTube screenshot">
-      </a>
-      <h2><a href="https://drive.google.com/uc?export=download&id=1MGtgm72AcEfAi018nnKtfHdfaLPuyojc" target="_blank" rel="noopener">DIMIFICAL YouTube</a></h2>
-      <p>Unblocked YouTube clone for school use. Whitelisted for certain people.</p>
-    </div>
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:linear-gradient(180deg,var(--bg-1),var(--bg-2));
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  min-height:100vh;
+  padding:2rem 1rem;
+}
 
-    <div class="project">
-      <a href="Timebridge%20TN.png" target="_blank" rel="noopener">
-        <img class="thumb" src="Timebridge%20TN.png" alt="Timebridge screenshot">
-      </a>
-      <h2><a href="https://drive.google.com/uc?export=download&id=19Bm14xqjop-hHsQtfl77ohuk0r4S5bD4" target="_blank" rel="noopener">Timebridge</a></h2>
-      <p>Motivation Project inspired by FutureMe. Recommended to use Calendar app along with this.</p>
-    </div>
-  </main>
+/* layout */
+main{
+  width:100%;
+  max-width:960px;
+  display:grid;
+  gap:1rem;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  margin-top:1.5rem; /* move cards down so hover lift doesn't cover the subheader */
+}
 
-  <div id="smodal" class="screenshot-modal" onclick="this.classList.remove('show')">
-    <img id="smodalImg" src="" alt="">
-  </div>
+/* make explicit username uppercase (only where wrapped) */
+.username{
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+}
 
-  <script>
-  document.querySelectorAll('.project a img.thumb').forEach(img=>{
-    img.addEventListener('click', e=>{
-      e.preventDefault();
-      const full = img.parentElement.getAttribute('href');
-      document.getElementById('smodalImg').src = full;
-      document.getElementById('smodal').classList.add('show');
-    });
-  });
-  </script>
+/* use Alata for headers/title */
+header h1,
+.project h2{
+  font-family: 'Alata', Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  color:var(--text);
+}
 
-<footer>
-  <p>
-    <a href="https://www.youtube.com/@dimifical" target="_blank">YouTube</a> • 
-    <a href="https://dimifical.itch.io" target="_blank">itch.io</a> • 
-    <a href="https://mail.google.com/mail/u/0/?fs=1&to=dimifical@gmail.com&su=Contact+from+your+portfolio&body=Hello+DIMIFICAL,%0A%0AI+wanted+to+reach+out+because...&tf=cm" target="_blank">Email</a>
-  </p>
-  <p>&copy; 2025 DIMIFICAL. All rights reserved.</p>
-</footer>
+/* centered content inside each card */
+.project{
+  background:var(--card-bg);
+  border-radius:12px;
+  padding:1.75rem;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;      /* vertical centering */
+  text-align:center;           /* horizontal centering of text */
+  min-height:160px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.28);
+  backdrop-filter:blur(6px);
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+
+.project:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.42);
+}
+
+.project img.thumb{
+  width:100%;
+  max-width:360px;
+  height:auto;
+  border-radius:10px;
+  margin-bottom:0.75rem;
+  display:block;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  object-fit:cover;
+}
+
+/* headings & links */
+header h1, header p{margin:0; text-align:center}
+.project h2{margin:0 0 0.5rem; font-size:1.15rem}
+.project a{
+  color:var(--muted);
+  text-decoration:none;
+  font-weight:600;
+}
+
+.project p{
+  margin:0;
+  color:var(--muted);
+}
+
+/* footer */
+footer{
+  margin-top:2rem;
+  color:var(--muted);
+  text-align:center;
+  width:100%;
+  max-width:960px;
+}
+
+/* Modal */
+.screenshot-modal{
+  position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+  background:rgba(10,10,15,0.75); z-index:9999; padding:2rem;
+}
+.screenshot-modal.show{ display:flex; }
+.screenshot-modal img{ max-width:95%; max-height:90%; border-radius:8px; }
