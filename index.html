@@ -51,6 +51,11 @@
     .avg-rating{ color:#b67bff; margin-left:6px; font-weight:700 }
     .star-btn{ background:transparent;border:0;cursor:pointer;font-size:20px;color:#ddd }
     .star-btn.active{ color:#ffb400 }
+    .open-comments, .rate-btn{ display:inline-flex; align-items:center; padding:6px 10px; font-size:14px; min-height:36px; border-radius:6px }
+    .rate-btn{ background:var(--accent); color:#fff; border:none; cursor:pointer; font-weight:700 }
+    .open-comments{ background:var(--card-bg); color:var(--text); border:1px solid rgba(255,255,255,0.06) }
+    .comment-delete{ background:transparent;border:0;color:#e97070;cursor:pointer;margin-left:8px }
+    .admin-badge{ background:#e58aff;color:#2b0b3e;font-weight:700;font-size:10px;padding:3px 6px;border-radius:999px;margin-left:6px;vertical-align:middle }
   </style>
 </head>
 <body>
@@ -58,7 +63,6 @@
     <h1>Welcome to <span class="username">Dimifical</span>'s Projects</h1>
     <p>Amazing tools for your needs.</p>
     <div id="auth" style="margin-top:8px;display:flex;align-items:center;gap:8px;">
-      <span id="currentUser">Not signed in</span>
       <button id="signinBtn" class="btn secondary">Sign In</button>
       <button id="signupBtn" class="btn">Sign Up</button>
       <button id="logoutBtn" class="btn" style="display:none;">Logout</button>
@@ -81,7 +85,10 @@
       </details>
       <div>
         <div class="rating-display">Average: <span class="avg-rating">No ratings</span></div>
-        <button class="open-comments">Open Comments</button>
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+          <button class="open-comments">Open Comments</button>
+          <button class="rate-btn">Rate</button>
+        </div>
       </div>
     </div>
 
@@ -103,7 +110,10 @@
       </details>
       <div>
         <div class="rating-display">Average: <span class="avg-rating">No ratings</span></div>
-        <button class="open-comments">Open Comments</button>
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+          <button class="open-comments">Open Comments</button>
+          <button class="rate-btn">Rate</button>
+        </div>
       </div>
     </div>
 
@@ -121,7 +131,10 @@
       </details>
       <div>
         <div class="rating-display">Average: <span class="avg-rating">No ratings</span></div>
-        <button class="open-comments">Open Comments</button>
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+          <button class="open-comments">Open Comments</button>
+          <button class="rate-btn">Rate</button>
+        </div>
       </div>
     </div>
 
@@ -195,9 +208,29 @@
   function register(username, password){ const users = getUsers(); if(users.find(u=>u.username===username)) throw new Error('username taken'); users.push({username,password}); saveUsers(users); setSession({username}); }
   function login(username, password){ const users = getUsers(); const found = users.find(u=>u.username===username && u.password===password); if(!found) throw new Error('invalid credentials'); setSession({username}); }
 
-  function renderAuthState(){ const cur = getSession(); const curEl = document.getElementById('currentUser'); const signinBtn = document.getElementById('signinBtn'); const signupBtn = document.getElementById('signupBtn'); const logoutBtn = document.getElementById('logoutBtn');
-    if(cur){ curEl.textContent = 'Signed in: ' + cur.username; signinBtn.style.display='none'; signupBtn.style.display='none'; logoutBtn.style.display='inline-block'; }
-    else { curEl.textContent = 'Not signed in'; signinBtn.style.display='inline-block'; signupBtn.style.display='inline-block'; logoutBtn.style.display='none'; }
+  function renderAuthState(){
+    const cur = getSession();
+    const curEl = document.getElementById('currentUser');
+    const signinBtn = document.getElementById('signinBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    if(cur){
+      curEl.style.display = 'inline-block';
+      curEl.textContent = 'Signed in: ' + cur.username;
+      if(cur.username === 'dmfy'){
+        const badge = document.createElement('span'); badge.className = 'admin-badge'; badge.textContent = 'ADMIN'; badge.style.marginLeft = '6px'; curEl.appendChild(badge);
+      }
+      signinBtn.style.display='none';
+      signupBtn.style.display='none';
+      logoutBtn.style.display='inline-block';
+    } else {
+      // hide the user label entirely when not signed in
+      curEl.textContent = '';
+      curEl.style.display = 'none';
+      signinBtn.style.display='inline-block';
+      signupBtn.style.display='inline-block';
+      logoutBtn.style.display='none';
+    }
   }
 
   function escapeHtml(s){ return (s+'').replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]; }); }
@@ -209,11 +242,36 @@
 
   // Drawer logic
   let activeProject = null;
-  function openDrawer(projectId, title){ activeProject = projectId; document.getElementById('drawerTitle').textContent = 'Comments — ' + title; document.getElementById('commentDrawer').classList.add('open'); document.getElementById('commentDrawer').setAttribute('aria-hidden','false'); renderDrawerComments(); renderDrawerRating(); }
+  function openDrawer(projectId, title, focusRating){ activeProject = projectId; document.getElementById('drawerTitle').textContent = 'Comments — ' + title; document.getElementById('commentDrawer').classList.add('open'); document.getElementById('commentDrawer').setAttribute('aria-hidden','false'); renderDrawerComments(); renderDrawerRating(); if(focusRating){ const area = document.getElementById('drawerRatingArea'); if(area) setTimeout(()=>area.scrollIntoView({behavior:'smooth',block:'center'}),120); } }
   function closeDrawer(){ activeProject = null; document.getElementById('commentDrawer').classList.remove('open'); document.getElementById('commentDrawer').setAttribute('aria-hidden','true'); }
 
   function renderDrawerComments(){ const out = document.getElementById('commentsList'); out.innerHTML = ''; if(!activeProject) return; const data = getComments(); const arr = data[activeProject] || []; if(arr.length===0){ out.innerHTML = '<p style="color:#666">No comments yet.</p>'; return; }
-    arr.slice().reverse().forEach(c=>{ const el = document.createElement('div'); el.style.padding='8px 6px'; el.style.borderBottom='1px solid #f1f1f1'; el.innerHTML = '<strong>'+escapeHtml(c.user)+'</strong> <small style="color:#666;margin-left:8px;">'+new Date(c.ts).toLocaleString()+'</small><div style="margin-top:6px">'+escapeHtml(c.text)+'</div>'; out.appendChild(el); });
+    const session = getSession();
+    arr.slice().reverse().forEach(c=>{
+      const el = document.createElement('div'); el.style.padding='8px 6px'; el.style.borderBottom='1px solid #f1f1f1';
+      const header = document.createElement('div'); header.style.display='flex'; header.style.alignItems='center'; header.style.justifyContent='space-between';
+      const left = document.createElement('div');
+      const nameHtml = '<strong>'+escapeHtml(c.user)+'</strong>' + (c.user === 'dmfy' ? ' <span class="admin-badge">ADMIN</span>' : '') + ' <small style="color:#666;margin-left:8px;">'+new Date(c.ts).toLocaleString()+'</small>';
+      left.innerHTML = nameHtml;
+      header.appendChild(left);
+      const right = document.createElement('div');
+      // allow delete if current user is author or is 'dmfy'
+      if(session && (session.username === c.user || session.username === 'dmfy')){
+        const del = document.createElement('button'); del.className = 'comment-delete'; del.textContent = 'Delete';
+        del.addEventListener('click', ()=>{
+          if(!confirm('Delete this comment?')) return;
+          const all = getComments(); const list = all[activeProject] || [];
+          const idx = list.findIndex(x=>x.ts===c.ts && x.user===c.user && x.text===c.text);
+          if(idx!==-1){ list.splice(idx,1); all[activeProject]=list; saveComments(all); renderDrawerComments(); }
+        });
+        right.appendChild(del);
+      }
+      header.appendChild(right);
+      el.appendChild(header);
+      const body = document.createElement('div'); body.style.marginTop='6px'; body.textContent = c.text;
+      el.appendChild(body);
+      out.appendChild(el);
+    });
   }
 
   function renderAllRatings(){ document.querySelectorAll('.project').forEach(proj=>{ const id = proj.getAttribute('data-id'); const span = proj.querySelector('.avg-rating'); const res = computeRating(id); if(res.count===0){ span.textContent = 'No ratings'; } else { span.textContent = '★ '+res.avg.toFixed(2)+' ('+res.count+')'; } }); }
@@ -264,6 +322,10 @@
     // open comment drawer from cards
     document.querySelectorAll('.open-comments').forEach(btn=>{
       btn.addEventListener('click', e=>{ const proj = btn.closest('.project'); const id = proj.getAttribute('data-id'); const title = proj.querySelector('h2').textContent || id; openDrawer(id, title); });
+    });
+    // rate button opens drawer and focuses rating
+    document.querySelectorAll('.rate-btn').forEach(btn=>{
+      btn.addEventListener('click', e=>{ const proj = btn.closest('.project'); const id = proj.getAttribute('data-id'); const title = proj.querySelector('h2').textContent || id; openDrawer(id, title, true); });
     });
 
     document.getElementById('drawerClose').addEventListener('click', closeDrawer);
