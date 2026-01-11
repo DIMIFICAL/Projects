@@ -119,6 +119,14 @@ footer{
 .open-comments:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,0.18) }
 .drawer{ background:var(--card-bg) !important; color:var(--text) !important }
 .drawer .close{ color:var(--text) }
-.auth-modal{ background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)) !important; color:var(--text) }
+.auth-modal{ background:#53277a !important; color:var(--text); opacity:1 !important }
+/* Make sign in/up popups and comment drawer a deep opaque purple; signin white, signup purple */
+#signupBtn{ background:#53277a; color:#fff; border:1px solid rgba(0,0,0,0.12) }
+#signupBtn:hover{ filter:brightness(.95) }
+#signinBtn{ background:#fff; color:#53277a; border:1px solid rgba(83,39,122,0.12) }
+#signinBtn:hover{ filter:brightness(.98) }
+.drawer{ background:#53277a !important; color:var(--text) !important; opacity:1 }
+.drawer .close{ color:var(--text) }
+.drawer textarea{ background:#fff; color:#2b1240 }
 
 
