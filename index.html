@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DIMIFICAL's Projects</title>
+  <title>Dimifical Projects</title>
   <link rel="stylesheet" href="style.css">
   <!-- CSS is consolidated in style.css -->
   <link rel="icon" href="DMFYblackcirclelogo.png" type="image/png+xml">
@@ -11,6 +11,27 @@
   <style>
     .social-icon { width:28px; height:28px; vertical-align:middle; margin:0 8px; }
     footer .socials { display:inline-flex; align-items:center; gap:8px; }
+    /* Changelog styling: matches site theme and blends with background */
+    details.logs { margin-top:8px; }
+    details.logs summary {
+      background: rgba(189,91,255,0.06);
+      color: #8148be;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      outline: none;
+    }
+    details.logs[open] summary { background: rgba(189,91,255,0.10); }
+    details.logs ul {
+      margin: 8px 0 0 18px;
+      padding: 8px;
+      list-style: disc;
+      color: #ab80da;
+      background: rgba(58,31,86,0.03);
+      border-radius: 6px;
+    }
+    details.logs li { margin: 4px 0; font-size: 0.95em; }
   </style>
 </head>
 <body>
@@ -26,6 +47,13 @@
       </a>
       <h2><a href="https://drive.google.com/uc?export=download&id=1ybwocg0wNqRsFau8c762qQhodWtZhgxk" target="_blank" rel="noopener">Versify</a></h2>
       <p>Bible verse explorer with 900+ categorized verses. Used by classmates for study and reflection.</p>
+      <details class="logs">
+        <summary>Changelog</summary>
+        <ul>
+          <li>8/12/2025 - Added “Versify”</li>
+          <li>11/27/2025 - Updated “Versify.” Now Verses fit in with the Chapter.</li>
+        </ul>
+      </details>
     </div>
 
     <div class="project">
@@ -34,6 +62,16 @@
       </a>
       <h2><a href="https://drive.google.com/uc?export=download&id=1MGtgm72AcEfAi018nnKtfHdfaLPuyojc" target="_blank" rel="noopener">DIMIFICAL YouTube</a></h2>
       <p>Unblocked YouTube clone for school use. Whitelisted for certain people.</p>
+      <details class="logs">
+        <summary>Changelog</summary>
+        <ul>
+          <li>11/27/2025 - Added “DIMIFICAL Youtube”</li>
+          <li>11/28/2025 - Updated “DIMIFICAL Youtube.” Added many new features.</li>
+          <li>11/28/2025 - Updated “DIMIFICAL Youtube.” Fixed Total &amp; Session Watch Time.</li>
+          <li>12/4/2025 - Updated “DIMIFICAL Youtube.” Added “Cloak” feature.</li>
+          <li>12/9/2025 - Updated “DIMIFICAL Youtube.” Fixed Button Glitch.</li>
+        </ul>
+      </details>
     </div>
 
     <div class="project">
@@ -42,6 +80,12 @@
       </a>
       <h2><a href="https://drive.google.com/uc?export=download&id=19Bm14xqjop-hHsQtfl77ohuk0r4S5bD4" target="_blank" rel="noopener">Timebridge</a></h2>
       <p>Motivation Project inspired by FutureMe. Recommended to use Calendar app along with this.</p>
+      <details class="logs">
+        <summary>Changelog</summary>
+        <ul>
+          <li>12/10/2025 - Added “Timebridge”</li>
+        </ul>
+      </details>
     </div>
   </main>
 
