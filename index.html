@@ -35,25 +35,17 @@
     /* Auth buttons and forms */
     .btn { background:#6f42c1;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;margin-left:8px;font-weight:600 }
     .btn.secondary{background:#eee;color:#222;font-weight:600}
-    .auth-modal { position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;padding:16px;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,0.15);display:none;z-index:1200;min-width:260px }
+    .auth-modal { position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:linear-gradient(180deg, rgba(182,138,255,0.10), rgba(58,31,86,0.06));padding:16px;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,0.15);display:none;z-index:1200;min-width:260px; color:var(--text) }
     .auth-modal.show{display:block}
     .modal-backdrop{ position:fixed;inset:0;background:rgba(0,0,0,0.35);display:none;z-index:1100 }
     .modal-backdrop.show{display:block}
     .form-row{margin:8px 0}
     input[type=text],input[type=password]{width:100%;padding:8px;border:1px solid #ddd;border-radius:6px}
     /* Drawer */
-    .drawer{ position:fixed;right:-420px;top:0;height:100%;width:380px;background:#fff;box-shadow:-18px 0 30px rgba(0,0,0,0.12);transition:right .26s ease;z-index:1300;padding:16px;overflow:auto }
+    .drawer{ position:fixed;right:-420px;top:0;height:100%;width:380px;background:linear-gradient(180deg, rgba(189,91,255,0.06), rgba(58,31,86,0.06));box-shadow:-18px 0 30px rgba(0,0,0,0.12);transition:right .26s ease;z-index:1300;padding:16px;overflow:auto; color:var(--text) }
     .drawer.open{ right:0 }
     .drawer .close{ background:none;border:0;font-size:18px;cursor:pointer }
-    .open-comments{ background:#fff;border:1px solid #ddd;padding:6px 10px;border-radius:6px;cursor:pointer;margin-top:10px }
-    /* Rating */
-    .rating-display{ margin-top:8px; color:#333; font-weight:700 }
-    .avg-rating{ color:#b67bff; margin-left:6px; font-weight:700 }
-    .star-btn{ background:transparent;border:0;cursor:pointer;font-size:20px;color:#ddd }
-    .star-btn.active{ color:#ffb400 }
-    .open-comments, .rate-btn{ display:inline-flex; align-items:center; padding:6px 10px; font-size:14px; min-height:36px; border-radius:6px }
-    .rate-btn{ background:var(--accent); color:#fff; border:none; cursor:pointer; font-weight:700 }
-    .open-comments{ background:var(--card-bg); color:var(--text); border:1px solid rgba(255,255,255,0.06) }
+    .open-comments{ display:inline-flex; align-items:center; padding:6px 10px; font-size:14px; min-height:36px; border-radius:6px; background:var(--card-bg); color:var(--text); border:1px solid rgba(255,255,255,0.06); cursor:pointer; margin-top:10px }
     .comment-delete{ background:transparent;border:0;color:#e97070;cursor:pointer;margin-left:8px }
     .admin-badge{ background:#e58aff;color:#2b0b3e;font-weight:700;font-size:10px;padding:3px 6px;border-radius:999px;margin-left:6px;vertical-align:middle }
   </style>
@@ -62,7 +54,8 @@
   <header>
     <h1>Welcome to <span class="username">Dimifical</span>'s Projects</h1>
     <p>Amazing tools for your needs.</p>
-    <div id="auth" style="margin-top:8px;display:flex;align-items:center;gap:8px;">
+    <div id="auth">
+      <span id="currentUser" style="display:none"></span>
       <button id="signinBtn" class="btn secondary">Sign In</button>
       <button id="signupBtn" class="btn">Sign Up</button>
       <button id="logoutBtn" class="btn" style="display:none;">Logout</button>
@@ -83,12 +76,8 @@
           <li>11/27/2025 - Updated “Versify.” Now Verses fit in with the Chapter.</li>
         </ul>
       </details>
-      <div>
-        <div class="rating-display">Average: <span class="avg-rating">No ratings</span></div>
-        <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
-          <button class="open-comments">Open Comments</button>
-          <button class="rate-btn">Rate</button>
-        </div>
+      <div style="display:flex;justify-content:center;margin-top:8px">
+        <button class="open-comments">Open Comments</button>
       </div>
     </div>
 
@@ -108,12 +97,8 @@
           <li>12/9/2025 - Updated “DIMIFICAL Youtube.” Fixed Button Glitch.</li>
         </ul>
       </details>
-      <div>
-        <div class="rating-display">Average: <span class="avg-rating">No ratings</span></div>
-        <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
-          <button class="open-comments">Open Comments</button>
-          <button class="rate-btn">Rate</button>
-        </div>
+      <div style="display:flex;justify-content:center;margin-top:8px">
+        <button class="open-comments">Open Comments</button>
       </div>
     </div>
 
@@ -129,12 +114,8 @@
           <li>12/10/2025 - Added “Timebridge”</li>
         </ul>
       </details>
-      <div>
-        <div class="rating-display">Average: <span class="avg-rating">No ratings</span></div>
-        <div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
-          <button class="open-comments">Open Comments</button>
-          <button class="rate-btn">Rate</button>
-        </div>
+      <div style="display:flex;justify-content:center;margin-top:8px">
+        <button class="open-comments">Open Comments</button>
       </div>
     </div>
 
@@ -170,7 +151,7 @@
     </div>
   </main>
 
-  <div id="smodal" class="screenshot-modal" onclick="this.classList.remove('show')">
+    <div id="smodal" class="screenshot-modal" onclick="this.classList.remove('show')">
     <img id="smodalImg" src="" alt="">
   </div>
 
@@ -191,19 +172,16 @@
   const USERS_KEY = 'site_users_v1';
   const SESSION_KEY = 'site_session_v1';
   const COMMENTS_KEY = 'site_comments_v1';
-  const RATINGS_KEY = 'site_ratings_v1';
+  
 
   function getUsers(){ try{ return JSON.parse(localStorage.getItem(USERS_KEY) || '[]'); }catch(e){return []} }
   function saveUsers(u){ localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
   function getSession(){ return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); }
-  function setSession(user){ localStorage.setItem(SESSION_KEY, JSON.stringify(user)); renderAuthState(); renderAllRatings(); }
-  function clearSession(){ localStorage.removeItem(SESSION_KEY); renderAuthState(); renderAllRatings(); }
+  function setSession(user){ localStorage.setItem(SESSION_KEY, JSON.stringify(user)); renderAuthState(); }
+  function clearSession(){ localStorage.removeItem(SESSION_KEY); renderAuthState(); }
 
   function getComments(){ try{ return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}'); }catch(e){return {}} }
   function saveComments(c){ localStorage.setItem(COMMENTS_KEY, JSON.stringify(c)); }
-
-  function getRatings(){ try{ return JSON.parse(localStorage.getItem(RATINGS_KEY) || '{}'); }catch(e){return {}} }
-  function saveRatings(r){ localStorage.setItem(RATINGS_KEY, JSON.stringify(r)); }
 
   function register(username, password){ const users = getUsers(); if(users.find(u=>u.username===username)) throw new Error('username taken'); users.push({username,password}); saveUsers(users); setSession({username}); }
   function login(username, password){ const users = getUsers(); const found = users.find(u=>u.username===username && u.password===password); if(!found) throw new Error('invalid credentials'); setSession({username}); }
@@ -235,14 +213,9 @@
 
   function escapeHtml(s){ return (s+'').replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]; }); }
 
-  // Ratings helpers
-  function setRating(projectId, username, value){ if(!projectId || !username) return; const r = getRatings(); r[projectId] = r[projectId] || {}; r[projectId][username] = value; saveRatings(r); renderAllRatings(); renderDrawerRating(); }
-  function getRating(projectId, username){ const r = getRatings(); return r[projectId] && r[projectId][username] ? r[projectId][username] : null; }
-  function computeRating(projectId){ const r = getRatings(); const obj = r[projectId] || {}; const vals = Object.values(obj).map(Number).filter(v=>!isNaN(v)); if(vals.length===0) return {avg:0,count:0}; const sum = vals.reduce((a,b)=>a+b,0); return {avg: sum/vals.length, count: vals.length}; }
-
   // Drawer logic
   let activeProject = null;
-  function openDrawer(projectId, title, focusRating){ activeProject = projectId; document.getElementById('drawerTitle').textContent = 'Comments — ' + title; document.getElementById('commentDrawer').classList.add('open'); document.getElementById('commentDrawer').setAttribute('aria-hidden','false'); renderDrawerComments(); renderDrawerRating(); if(focusRating){ const area = document.getElementById('drawerRatingArea'); if(area) setTimeout(()=>area.scrollIntoView({behavior:'smooth',block:'center'}),120); } }
+  function openDrawer(projectId, title){ activeProject = projectId; document.getElementById('drawerTitle').textContent = 'Comments — ' + title; document.getElementById('commentDrawer').classList.add('open'); document.getElementById('commentDrawer').setAttribute('aria-hidden','false'); renderDrawerComments(); }
   function closeDrawer(){ activeProject = null; document.getElementById('commentDrawer').classList.remove('open'); document.getElementById('commentDrawer').setAttribute('aria-hidden','true'); }
 
   function renderDrawerComments(){ const out = document.getElementById('commentsList'); out.innerHTML = ''; if(!activeProject) return; const data = getComments(); const arr = data[activeProject] || []; if(arr.length===0){ out.innerHTML = '<p style="color:#666">No comments yet.</p>'; return; }
@@ -274,20 +247,7 @@
     });
   }
 
-  function renderAllRatings(){ document.querySelectorAll('.project').forEach(proj=>{ const id = proj.getAttribute('data-id'); const span = proj.querySelector('.avg-rating'); const res = computeRating(id); if(res.count===0){ span.textContent = 'No ratings'; } else { span.textContent = '★ '+res.avg.toFixed(2)+' ('+res.count+')'; } }); }
-
-  function renderDrawerRating(){ const container = document.getElementById('drawerRatingArea'); if(!container) return; container.innerHTML = ''; if(!activeProject){ container.textContent = ''; return; }
-    const cur = getSession(); const res = computeRating(activeProject); const title = document.createElement('div'); title.style.marginBottom='8px'; title.innerHTML = '<strong>Average</strong>: '+(res.count?('★ '+res.avg.toFixed(2)+' ('+res.count+')'):'No ratings'); container.appendChild(title);
-    const row = document.createElement('div'); row.style.marginTop='6px'; row.innerHTML = '<strong>Your rating</strong>: ';
-    const user = cur && cur.username ? cur.username : null;
-    const userRating = user ? getRating(activeProject, user) : null;
-    for(let i=1;i<=5;i++){ const b = document.createElement('button'); b.className = 'star-btn'+(userRating && i<=userRating ? ' active':'' ); b.textContent = '★'; b.title = String(i)+' stars'; b.addEventListener('click', ()=>{
-      if(!user){ openSignin(); return; }
-      setRating(activeProject, user, i);
-      alert('Rated '+i+' star(s)');
-    }); row.appendChild(b); }
-    container.appendChild(row);
-  }
+  
 
   function postToActive(text){ if(!activeProject) return; const session = getSession(); if(!session){ openSignin(); return; } const t = (text||'').trim(); if(!t) return alert('Enter a comment'); const data = getComments(); data[activeProject] = data[activeProject] || []; data[activeProject].push({ user: session.username, text: t, ts: Date.now() }); saveComments(data); document.getElementById('drawerInput').value=''; renderDrawerComments(); }
 
@@ -323,10 +283,6 @@
     document.querySelectorAll('.open-comments').forEach(btn=>{
       btn.addEventListener('click', e=>{ const proj = btn.closest('.project'); const id = proj.getAttribute('data-id'); const title = proj.querySelector('h2').textContent || id; openDrawer(id, title); });
     });
-    // rate button opens drawer and focuses rating
-    document.querySelectorAll('.rate-btn').forEach(btn=>{
-      btn.addEventListener('click', e=>{ const proj = btn.closest('.project'); const id = proj.getAttribute('data-id'); const title = proj.querySelector('h2').textContent || id; openDrawer(id, title, true); });
-    });
 
     document.getElementById('drawerClose').addEventListener('click', closeDrawer);
     document.getElementById('drawerPost').addEventListener('click', ()=> postToActive(document.getElementById('drawerInput').value));
@@ -334,16 +290,13 @@
     // keyboard escape to close drawer/modals
     document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeDrawer(); hideModals(); } });
 
-    // ensure drawer has rating area
-    const drawer = document.getElementById('commentDrawer'); const ratingArea = document.createElement('div'); ratingArea.id = 'drawerRatingArea'; ratingArea.style.marginTop = '8px'; drawer.insertBefore(ratingArea, drawer.querySelector('#commentsList'));
-
-    renderAuthState(); renderAllRatings();
+    renderAuthState();
   });
 
 })();
 </script>
 
-<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="dimifical" data-description="Support me on Buy me a coffee!" data-message="Thank you for visiting!" data-color="#BD5FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="dimifical" data-description="Support me on Buy me a coffee!" data-message="Thank you for visiting!" data-color="#BD5FFF" data-position="Left" data-x_margin="18" data-y_margin="18"></script>
 
   <footer>
   <p class="socials">
