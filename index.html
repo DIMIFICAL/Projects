@@ -32,16 +32,41 @@
       border-radius: 6px;
     }
     details.logs li { margin: 4px 0; font-size: 0.95em; }
+    /* Auth buttons and forms */
+    .btn { background:#6f42c1;color:#fff;border:none;padding:6px 10px;border-radius:6px;cursor:pointer;margin-left:8px;font-weight:600 }
+    .btn.secondary{background:#eee;color:#222;font-weight:600}
+    .auth-modal { position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;padding:16px;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,0.15);display:none;z-index:1200;min-width:260px }
+    .auth-modal.show{display:block}
+    .modal-backdrop{ position:fixed;inset:0;background:rgba(0,0,0,0.35);display:none;z-index:1100 }
+    .modal-backdrop.show{display:block}
+    .form-row{margin:8px 0}
+    input[type=text],input[type=password]{width:100%;padding:8px;border:1px solid #ddd;border-radius:6px}
+    /* Drawer */
+    .drawer{ position:fixed;right:-420px;top:0;height:100%;width:380px;background:#fff;box-shadow:-18px 0 30px rgba(0,0,0,0.12);transition:right .26s ease;z-index:1300;padding:16px;overflow:auto }
+    .drawer.open{ right:0 }
+    .drawer .close{ background:none;border:0;font-size:18px;cursor:pointer }
+    .open-comments{ background:#fff;border:1px solid #ddd;padding:6px 10px;border-radius:6px;cursor:pointer;margin-top:10px }
+    /* Rating */
+    .rating-display{ margin-top:8px; color:#333; font-weight:700 }
+    .avg-rating{ color:#b67bff; margin-left:6px; font-weight:700 }
+    .star-btn{ background:transparent;border:0;cursor:pointer;font-size:20px;color:#ddd }
+    .star-btn.active{ color:#ffb400 }
   </style>
 </head>
 <body>
   <header>
     <h1>Welcome to <span class="username">Dimifical</span>'s Projects</h1>
     <p>Amazing tools for your needs.</p>
+    <div id="auth" style="margin-top:8px;display:flex;align-items:center;gap:8px;">
+      <span id="currentUser">Not signed in</span>
+      <button id="signinBtn" class="btn secondary">Sign In</button>
+      <button id="signupBtn" class="btn">Sign Up</button>
+      <button id="logoutBtn" class="btn" style="display:none;">Logout</button>
+    </div>
   </header>
 
   <main>
-    <div class="project">
+    <div class="project" data-id="versify">
       <a href="Versify%20TN.png" target="_blank" rel="noopener">
         <img class="thumb" src="Versify%20TN.png" alt="Versify screenshot">
       </a>
@@ -54,9 +79,13 @@
           <li>11/27/2025 - Updated “Versify.” Now Verses fit in with the Chapter.</li>
         </ul>
       </details>
+      <div>
+        <div class="rating-display">Average: <span class="avg-rating">No ratings</span></div>
+        <button class="open-comments">Open Comments</button>
+      </div>
     </div>
 
-    <div class="project">
+    <div class="project" data-id="youtube">
       <a href="DIMIFICAL%20Youtube%20TN.png" target="_blank" rel="noopener">
         <img class="thumb" src="DIMIFICAL%20Youtube%20TN.png" alt="DIMIFICAL YouTube screenshot">
       </a>
@@ -72,9 +101,13 @@
           <li>12/9/2025 - Updated “DIMIFICAL Youtube.” Fixed Button Glitch.</li>
         </ul>
       </details>
+      <div>
+        <div class="rating-display">Average: <span class="avg-rating">No ratings</span></div>
+        <button class="open-comments">Open Comments</button>
+      </div>
     </div>
 
-    <div class="project">
+    <div class="project" data-id="timebridge">
       <a href="Timebridge%20TN.png" target="_blank" rel="noopener">
         <img class="thumb" src="Timebridge%20TN.png" alt="Timebridge screenshot">
       </a>
@@ -86,6 +119,41 @@
           <li>12/10/2025 - Added “Timebridge”</li>
         </ul>
       </details>
+      <div>
+        <div class="rating-display">Average: <span class="avg-rating">No ratings</span></div>
+        <button class="open-comments">Open Comments</button>
+      </div>
+    </div>
+
+    <!-- Comment Drawer -->
+    <aside id="commentDrawer" class="drawer" aria-hidden="true">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <h3 id="drawerTitle">Comments</h3>
+        <div>
+          <button class="close" id="drawerClose">✕</button>
+        </div>
+      </div>
+      <div style="margin-top:8px">
+        <div id="commentsList" style="max-height:60vh;overflow:auto;border-top:1px solid #eee;padding-top:8px"></div>
+        <div style="margin-top:12px">
+          <textarea id="drawerInput" rows="4" style="width:100%;box-sizing:border-box;padding:8px;border:1px solid #ddd;border-radius:6px" placeholder="Write a comment..."></textarea>
+          <div style="text-align:right;margin-top:8px"><button id="drawerPost" class="btn">Post Comment</button></div>
+        </div>
+      </div>
+    </aside>
+
+    <div id="modalBackdrop" class="modal-backdrop"></div>
+    <div id="signupModal" class="auth-modal" aria-hidden="true">
+      <h3>Sign Up</h3>
+      <div class="form-row"><label>Username</label><input id="su_username" type="text"></div>
+      <div class="form-row"><label>Password</label><input id="su_password" type="password"></div>
+      <div style="text-align:right;margin-top:8px"><button id="su_submit" class="btn">Create Account</button></div>
+    </div>
+    <div id="signinModal" class="auth-modal" aria-hidden="true">
+      <h3>Sign In</h3>
+      <div class="form-row"><label>Username</label><input id="si_username" type="text"></div>
+      <div class="form-row"><label>Password</label><input id="si_password" type="password"></div>
+      <div style="text-align:right;margin-top:8px"><button id="si_submit" class="btn">Sign In</button></div>
     </div>
   </main>
 
@@ -104,6 +172,115 @@
   });
   </script>
 
+<script>
+  // Client-side auth, comments and ratings using localStorage with modals and drawer
+  (function(){
+  const USERS_KEY = 'site_users_v1';
+  const SESSION_KEY = 'site_session_v1';
+  const COMMENTS_KEY = 'site_comments_v1';
+  const RATINGS_KEY = 'site_ratings_v1';
+
+  function getUsers(){ try{ return JSON.parse(localStorage.getItem(USERS_KEY) || '[]'); }catch(e){return []} }
+  function saveUsers(u){ localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+  function getSession(){ return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); }
+  function setSession(user){ localStorage.setItem(SESSION_KEY, JSON.stringify(user)); renderAuthState(); renderAllRatings(); }
+  function clearSession(){ localStorage.removeItem(SESSION_KEY); renderAuthState(); renderAllRatings(); }
+
+  function getComments(){ try{ return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}'); }catch(e){return {}} }
+  function saveComments(c){ localStorage.setItem(COMMENTS_KEY, JSON.stringify(c)); }
+
+  function getRatings(){ try{ return JSON.parse(localStorage.getItem(RATINGS_KEY) || '{}'); }catch(e){return {}} }
+  function saveRatings(r){ localStorage.setItem(RATINGS_KEY, JSON.stringify(r)); }
+
+  function register(username, password){ const users = getUsers(); if(users.find(u=>u.username===username)) throw new Error('username taken'); users.push({username,password}); saveUsers(users); setSession({username}); }
+  function login(username, password){ const users = getUsers(); const found = users.find(u=>u.username===username && u.password===password); if(!found) throw new Error('invalid credentials'); setSession({username}); }
+
+  function renderAuthState(){ const cur = getSession(); const curEl = document.getElementById('currentUser'); const signinBtn = document.getElementById('signinBtn'); const signupBtn = document.getElementById('signupBtn'); const logoutBtn = document.getElementById('logoutBtn');
+    if(cur){ curEl.textContent = 'Signed in: ' + cur.username; signinBtn.style.display='none'; signupBtn.style.display='none'; logoutBtn.style.display='inline-block'; }
+    else { curEl.textContent = 'Not signed in'; signinBtn.style.display='inline-block'; signupBtn.style.display='inline-block'; logoutBtn.style.display='none'; }
+  }
+
+  function escapeHtml(s){ return (s+'').replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]; }); }
+
+  // Ratings helpers
+  function setRating(projectId, username, value){ if(!projectId || !username) return; const r = getRatings(); r[projectId] = r[projectId] || {}; r[projectId][username] = value; saveRatings(r); renderAllRatings(); renderDrawerRating(); }
+  function getRating(projectId, username){ const r = getRatings(); return r[projectId] && r[projectId][username] ? r[projectId][username] : null; }
+  function computeRating(projectId){ const r = getRatings(); const obj = r[projectId] || {}; const vals = Object.values(obj).map(Number).filter(v=>!isNaN(v)); if(vals.length===0) return {avg:0,count:0}; const sum = vals.reduce((a,b)=>a+b,0); return {avg: sum/vals.length, count: vals.length}; }
+
+  // Drawer logic
+  let activeProject = null;
+  function openDrawer(projectId, title){ activeProject = projectId; document.getElementById('drawerTitle').textContent = 'Comments — ' + title; document.getElementById('commentDrawer').classList.add('open'); document.getElementById('commentDrawer').setAttribute('aria-hidden','false'); renderDrawerComments(); renderDrawerRating(); }
+  function closeDrawer(){ activeProject = null; document.getElementById('commentDrawer').classList.remove('open'); document.getElementById('commentDrawer').setAttribute('aria-hidden','true'); }
+
+  function renderDrawerComments(){ const out = document.getElementById('commentsList'); out.innerHTML = ''; if(!activeProject) return; const data = getComments(); const arr = data[activeProject] || []; if(arr.length===0){ out.innerHTML = '<p style="color:#666">No comments yet.</p>'; return; }
+    arr.slice().reverse().forEach(c=>{ const el = document.createElement('div'); el.style.padding='8px 6px'; el.style.borderBottom='1px solid #f1f1f1'; el.innerHTML = '<strong>'+escapeHtml(c.user)+'</strong> <small style="color:#666;margin-left:8px;">'+new Date(c.ts).toLocaleString()+'</small><div style="margin-top:6px">'+escapeHtml(c.text)+'</div>'; out.appendChild(el); });
+  }
+
+  function renderAllRatings(){ document.querySelectorAll('.project').forEach(proj=>{ const id = proj.getAttribute('data-id'); const span = proj.querySelector('.avg-rating'); const res = computeRating(id); if(res.count===0){ span.textContent = 'No ratings'; } else { span.textContent = '★ '+res.avg.toFixed(2)+' ('+res.count+')'; } }); }
+
+  function renderDrawerRating(){ const container = document.getElementById('drawerRatingArea'); if(!container) return; container.innerHTML = ''; if(!activeProject){ container.textContent = ''; return; }
+    const cur = getSession(); const res = computeRating(activeProject); const title = document.createElement('div'); title.style.marginBottom='8px'; title.innerHTML = '<strong>Average</strong>: '+(res.count?('★ '+res.avg.toFixed(2)+' ('+res.count+')'):'No ratings'); container.appendChild(title);
+    const row = document.createElement('div'); row.style.marginTop='6px'; row.innerHTML = '<strong>Your rating</strong>: ';
+    const user = cur && cur.username ? cur.username : null;
+    const userRating = user ? getRating(activeProject, user) : null;
+    for(let i=1;i<=5;i++){ const b = document.createElement('button'); b.className = 'star-btn'+(userRating && i<=userRating ? ' active':'' ); b.textContent = '★'; b.title = String(i)+' stars'; b.addEventListener('click', ()=>{
+      if(!user){ openSignin(); return; }
+      setRating(activeProject, user, i);
+      alert('Rated '+i+' star(s)');
+    }); row.appendChild(b); }
+    container.appendChild(row);
+  }
+
+  function postToActive(text){ if(!activeProject) return; const session = getSession(); if(!session){ openSignin(); return; } const t = (text||'').trim(); if(!t) return alert('Enter a comment'); const data = getComments(); data[activeProject] = data[activeProject] || []; data[activeProject].push({ user: session.username, text: t, ts: Date.now() }); saveComments(data); document.getElementById('drawerInput').value=''; renderDrawerComments(); }
+
+  // Modals
+  function showModal(id){ document.getElementById('modalBackdrop').classList.add('show'); document.getElementById(id).classList.add('show'); }
+  function hideModals(){ document.getElementById('modalBackdrop').classList.remove('show'); document.querySelectorAll('.auth-modal').forEach(m=>m.classList.remove('show')); }
+
+  function openSignup(){ showModal('signupModal'); }
+  function openSignin(){ showModal('signinModal'); }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    // wire header buttons
+    document.getElementById('signupBtn').addEventListener('click', openSignup);
+    document.getElementById('signinBtn').addEventListener('click', openSignin);
+    document.getElementById('logoutBtn').addEventListener('click', ()=>{ clearSession(); alert('Signed out'); });
+
+    // modal backdrop click closes
+    document.getElementById('modalBackdrop').addEventListener('click', hideModals);
+
+    // signup form
+    document.getElementById('su_submit').addEventListener('click', ()=>{
+      const u = (document.getElementById('su_username').value||'').trim(); const p = (document.getElementById('su_password').value||''); if(!u||!p){ alert('Enter username and password'); return; }
+      try{ register(u,p); hideModals(); alert('Registered and signed in as '+u); }catch(e){ alert(e.message); }
+    });
+
+    // signin form
+    document.getElementById('si_submit').addEventListener('click', ()=>{
+      const u = (document.getElementById('si_username').value||'').trim(); const p = (document.getElementById('si_password').value||''); if(!u||!p){ alert('Enter username and password'); return; }
+      try{ login(u,p); hideModals(); alert('Signed in as '+u); }catch(e){ alert(e.message); }
+    });
+
+    // open comment drawer from cards
+    document.querySelectorAll('.open-comments').forEach(btn=>{
+      btn.addEventListener('click', e=>{ const proj = btn.closest('.project'); const id = proj.getAttribute('data-id'); const title = proj.querySelector('h2').textContent || id; openDrawer(id, title); });
+    });
+
+    document.getElementById('drawerClose').addEventListener('click', closeDrawer);
+    document.getElementById('drawerPost').addEventListener('click', ()=> postToActive(document.getElementById('drawerInput').value));
+
+    // keyboard escape to close drawer/modals
+    document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeDrawer(); hideModals(); } });
+
+    // ensure drawer has rating area
+    const drawer = document.getElementById('commentDrawer'); const ratingArea = document.createElement('div'); ratingArea.id = 'drawerRatingArea'; ratingArea.style.marginTop = '8px'; drawer.insertBefore(ratingArea, drawer.querySelector('#commentsList'));
+
+    renderAuthState(); renderAllRatings();
+  });
+
+})();
+</script>
+
 <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="dimifical" data-description="Support me on Buy me a coffee!" data-message="Thank you for visiting!" data-color="#BD5FFF" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 
   <footer>
@@ -120,4 +297,3 @@
   </p>
   <p>&copy; 2025 DIMIFICAL. All rights reserved.</p>
 </footer>
-
