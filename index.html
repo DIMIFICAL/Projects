@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dimifical Projects</title>
+  <title>DIMIFICAL's Projects</title>
   <link rel="stylesheet" href="style.css">
   <!-- CSS is consolidated in style.css -->
   <link rel="icon" href="DMFYblackcirclelogo.png" type="image/png+xml">
@@ -183,7 +183,14 @@
   function getComments(){ try{ return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '{}'); }catch(e){return {}} }
   function saveComments(c){ localStorage.setItem(COMMENTS_KEY, JSON.stringify(c)); }
 
-  function register(username, password){ const users = getUsers(); if(users.find(u=>u.username===username)) throw new Error('username taken'); users.push({username,password}); saveUsers(users); setSession({username}); }
+  function register(username, password){
+    const users = getUsers();
+    if(!username) throw new Error('invalid username');
+    const norm = username.toLowerCase();
+    if(norm === 'dmfy') throw new Error('username reserved');
+    if(users.find(u=>u.username.toLowerCase()===norm)) throw new Error('username taken');
+    users.push({username,password}); saveUsers(users); setSession({username});
+  }
   function login(username, password){ const users = getUsers(); const found = users.find(u=>u.username===username && u.password===password); if(!found) throw new Error('invalid credentials'); setSession({username}); }
 
   function renderAuthState(){
@@ -306,9 +313,6 @@
     </a>
     <a href="https://mail.google.com/mail/u/0/?fs=1&to=dimifical@gmail.com&su=Contact+from+your+portfolio&body=Hello+DIMIFICAL,%0A%0AI+wanted+to+reach+out+because...&tf=cm" target="_blank" aria-label="Email">
       <img class="social-icon" src="https://cdn.simpleicons.org/gmail" alt="Gmail logo">
-    </a>
-    <a href="https://buymeacoffee.com/dimifical" target="_blank" rel="noopener" aria-label="Buy me a coffee">
-      <img class="social-icon" src="https://cdn.simpleicons.org/buymeacoffee" alt="Buy Me A Coffee logo">
     </a>
   </p>
   <p>&copy; 2025 DIMIFICAL. All rights reserved.</p>
