@@ -7,6 +7,8 @@
   --accent:#b68aff;
   --muted:#c8bfe6;
   --text:#efeaf7;
+  --popup-purple:#53277a;
+  --deep-purple:#2b1240;
 }
 
 *{box-sizing:border-box}
@@ -119,14 +121,21 @@ footer{
 .open-comments:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,0.18) }
 .drawer{ background:var(--card-bg) !important; color:var(--text) !important }
 .drawer .close{ color:var(--text) }
-.auth-modal{ background:#53277a !important; color:var(--text); opacity:1 !important }
+.auth-modal{ background:var(--popup-purple) !important; color:var(--deep-purple) !important; opacity:1 !important }
 /* Make sign in/up popups and comment drawer a deep opaque purple; signin white, signup purple */
 #signupBtn{ background:#53277a; color:#fff; border:1px solid rgba(0,0,0,0.12) }
 #signupBtn:hover{ filter:brightness(.95) }
 #signinBtn{ background:#fff; color:#53277a; border:1px solid rgba(83,39,122,0.12) }
 #signinBtn:hover{ filter:brightness(.98) }
-.drawer{ background:#53277a !important; color:var(--text) !important; opacity:1 }
-.drawer .close{ color:var(--text) }
-.drawer textarea{ background:#fff; color:#2b1240 }
+.drawer{ background:var(--popup-purple) !important; color:var(--deep-purple) !important; opacity:1 }
+.drawer .close{ color:var(--deep-purple) }
+.drawer textarea{ background:#fff; color:var(--deep-purple) }
+
+/* Text color overrides inside modals and drawer */
+.auth-modal h3, .auth-modal label { color: var(--deep-purple) !important }
+.auth-modal input, .auth-modal input::placeholder { color: var(--deep-purple) !important }
+#commentDrawer, #commentDrawer * { color: var(--deep-purple) !important }
+#commentDrawer h3 { color: var(--deep-purple) !important }
+#commentsList div { color: var(--deep-purple) !important }
 
 
