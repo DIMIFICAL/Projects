@@ -138,19 +138,3 @@ footer{
 #commentDrawer h3 { color: var(--deep-purple) !important }
 #commentsList div { color: var(--deep-purple) !important }
 
-/* Force BuyMeACoffee widget to appear on the left side (button and popup)
-   The widget injects elements with various class/id names; these rules
-   target common selectors and force left positioning. */
-[id*="buymeacoffee"], [id*="bmc"], [class*="buymeacoffee"], [class*="bmc-"], iframe[src*="buymeacoffee.com"] {
-  right: auto !important;
-  left: 18px !important;
-  bottom: 18px !important;
-}
-
-/* Also ensure fixed-position popovers use left anchor */
-.bmc-popover, .bmc-widget, .bmc-wrapper, .buymeacoffee-widget, .bmc-frame {
-  right: auto !important;
-  left: 18px !important;
-}
-
-
