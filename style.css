@@ -113,7 +113,7 @@ footer{
 .screenshot-modal.show{ display:flex; }
 .screenshot-modal img{ max-width:95%; max-height:90%; border-radius:8px; }
 /* Theme tweaks for comment button, drawer, and auth alignment */
-#auth{ width:100%; justify-content:center; }
+#auth{ width:100%; display:flex; justify-content:center; align-items:center; gap:8px; margin-top:8px }
 #auth #currentUser{ text-align:center; min-width:140px; display:inline-block }
 .open-comments{ background:var(--card-bg) !important; color:var(--text) !important; border:1px solid rgba(255,255,255,0.06) !important }
 .open-comments:hover{ transform:translateY(-2px); box-shadow:0 6px 18px rgba(0,0,0,0.18) }
