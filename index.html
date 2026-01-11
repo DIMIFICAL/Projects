@@ -185,10 +185,10 @@
 
   function register(username, password){
     const users = getUsers();
-    if(!username) throw new Error('invalid username');
+    if(!username) throw new Error('Invalid Username');
     const norm = username.toLowerCase();
-    if(norm === 'dmfy') throw new Error('username reserved');
-    if(users.find(u=>u.username.toLowerCase()===norm)) throw new Error('username taken');
+    if(norm === 'dmfy') throw new Error('Username Reserved');
+    if(users.find(u=>u.username.toLowerCase()===norm)) throw new Error('Username Taken');
     users.push({username,password}); saveUsers(users); setSession({username});
   }
   function login(username, password){ const users = getUsers(); const found = users.find(u=>u.username===username && u.password===password); if(!found) throw new Error('invalid credentials'); setSession({username}); }
