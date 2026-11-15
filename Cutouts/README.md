@@ -6,7 +6,8 @@ A free tool by DIMIFICAL.
 Try it: https://dimifical.github.io/Projects
 
 ## DISCLAIMER
-When you open up the .html file for the first time, it will take a while to load. It is just loading the library and model, after that it will start. Please wait, thank you. More information will be at the bottom.
+When you open up the .html file for the first time, it will take a while to load. It is just loading the library and model, after that it will start.
+Please wait, thank you. More information will be at the bottom.
 
 ## How to use
 1. Click "Click here to upload an image."
