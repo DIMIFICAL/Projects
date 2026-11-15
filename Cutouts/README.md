@@ -15,9 +15,8 @@ For the best results, use a clear photo of one subject on a plain
 background.
 
 ## Privacy
-Images are processed on your device. They are not uploaded to
-any server. (An internet connection is needed the first time, to
-download the background removal model.)
+Images are processed on your device. They are not uploaded to any server.
+(An internet connection is needed the first time to download the background removal model.)
 
 ## Built with
 - TurboWarp (https://turbowarp.org)
@@ -29,7 +28,7 @@ download the background removal model.)
 - cutouts.sb3: the project file
 
 ## License
-Copyright (c) 2026 [your name]
+Copyright (c) 2026 [DIMIFICAL]
 
 Cutouts is free software licensed under the GNU Affero General
 Public License v3.0 (AGPL-3.0). See the LICENSE file for the full
