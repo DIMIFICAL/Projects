@@ -68,7 +68,7 @@
       <a href="Versify%20TN.png" target="_blank" rel="noopener">
         <img class="thumb" src="Versify%20TN.png" alt="Versify screenshot">
       </a>
-      <h2><a href="https://drive.google.com/uc?export=download&id=1ybwocg0wNqRsFau8c762qQhodWtZhgxk" target="_blank" rel="noopener">Versify</a></h2>
+      <h2><a href="https://raw.githubusercontent.com/DIMIFICAL/Projects/refs/heads/main/Versify.html" data-filename="Versify.html">Versify</a></h2>
       <p>Bible verse explorer with 900+ categorized verses. Used by classmates for study and reflection.</p>
       <details class="logs">
         <summary>Changelog</summary>
@@ -86,7 +86,7 @@
       <a href="DIMIFICAL%20Youtube%20TN.png" target="_blank" rel="noopener">
         <img class="thumb" src="DIMIFICAL%20Youtube%20TN.png" alt="DIMIFICAL YouTube screenshot">
       </a>
-      <h2><a href="https://drive.google.com/uc?export=download&id=1MGtgm72AcEfAi018nnKtfHdfaLPuyojc" target="_blank" rel="noopener">DIMIFICAL YouTube</a></h2>
+      <h2><a href="https://raw.githubusercontent.com/DIMIFICAL/Projects/refs/heads/main/DIMIFICAL%20Youtube.html" data-filename="DIMIFICAL Youtube.html">DIMIFICAL YouTube</a></h2>
       <p>Unblocked YouTube clone for school use.</p>
       <details class="logs">
         <summary>Changelog</summary>
@@ -109,7 +109,7 @@
       <a href="Timebridge%20TN.png" target="_blank" rel="noopener">
         <img class="thumb" src="Timebridge%20TN.png" alt="Timebridge screenshot">
       </a>
-      <h2><a href="https://drive.google.com/uc?export=download&id=19Bm14xqjop-hHsQtfl77ohuk0r4S5bD4" target="_blank" rel="noopener">Timebridge</a></h2>
+      <h2><a href="https://raw.githubusercontent.com/DIMIFICAL/Projects/refs/heads/main/Timebridge.html" data-filename="Timebridge.html">Timebridge</a></h2>
       <p>Motivation Project inspired by FutureMe. Recommended to use Calendar app along with this.</p>
       <details class="logs">
         <summary>Changelog</summary>
@@ -126,7 +126,7 @@
       <a href="Cutouts/Cutouts%20TN.png" target="_blank" rel="noopener">
         <img class="thumb" src="Cutouts/Cutouts%20TN.png" alt="Cutouts screenshot">
       </a>
-      <h2><a href="https://drive.google.com/uc?export=download&id=1VgV7_eS4kFscHHqHsB-e8HBiUpO3POx-" target="_blank" rel="noopener">Cutouts</a></h2>
+      <h2><a href="https://raw.githubusercontent.com/DIMIFICAL/Projects/refs/heads/main/Cutouts/DIMIFICAL%20Cutouts.html" data-filename="DIMIFICAL Cutouts.html">Cutouts</a></h2>
       <p>Automatic background removal tool</p>
       <details class="logs">
         <summary>Changelog</summary>
@@ -183,6 +183,25 @@
       const full = img.parentElement.getAttribute('href');
       document.getElementById('smodalImg').src = full;
       document.getElementById('smodal').classList.add('show');
+    });
+  });
+  document.querySelectorAll('.project h2 a[data-filename]').forEach(link=>{
+    link.addEventListener('click', async e=>{
+      e.preventDefault();
+      try{
+        const response = await fetch(link.href);
+        if(!response.ok) throw new Error(`GitHub returned ${response.status}`);
+        const fileUrl = URL.createObjectURL(await response.blob());
+        const download = document.createElement('a');
+        download.href = fileUrl;
+        download.download = link.dataset.filename;
+        document.body.appendChild(download);
+        download.click();
+        download.remove();
+        window.setTimeout(()=>URL.revokeObjectURL(fileUrl), 1000);
+      }catch(error){
+        alert(`Unable to download ${link.dataset.filename}: ${error.message}`);
+      }
     });
   });
   </script>
